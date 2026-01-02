@@ -13,15 +13,15 @@ interface State {
 /**
  * ErrorBoundary component to catch rendering errors and show a fallback UI.
  */
+// Fix: Use React.Component with explicit generics to ensure that this.state and this.props are correctly recognized
 export class ErrorBoundary extends React.Component<Props, State> {
-  // Fix: initializing state as a class field ensures it is correctly typed and recognized by TypeScript on 'this'
+  // Fix: Move state initialization to a class property for better TypeScript property detection
   public state: State = {
     hasError: false,
     error: null
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    // Update state so the next render will show the fallback UI.
     return { hasError: true, error };
   }
 
@@ -30,8 +30,11 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public render() {
-    // Fix: access state from React.Component instance
-    if (this.state.hasError) {
+    // Fix: Access state and props inherited from the base React.Component class
+    const { hasError, error } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
       return (
         <div className="min-h-screen bg-[#F7F5EF] flex items-center justify-center p-6">
           <div className="bg-white rounded-[48px] p-12 max-w-lg w-full shadow-2xl text-center space-y-8 animate-in zoom-in-95 duration-300">
@@ -49,8 +52,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <div className="bg-gray-50 p-4 rounded-2xl text-left">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Diagnostic Info</p>
               <p className="text-xs font-mono text-gray-600 line-clamp-3">
-                {/* Fix: access error property from the state object */}
-                {this.state.error?.message || "Unknown error"}
+                {error?.message || "Unknown error"}
               </p>
             </div>
 
@@ -74,8 +76,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
-    // Fix: access children from props which are inherited from React.Component
-    return this.props.children;
+    return children;
   }
 }
 
