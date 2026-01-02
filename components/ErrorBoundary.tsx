@@ -1,4 +1,3 @@
-
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
 
@@ -14,15 +13,13 @@ interface State {
 /**
  * ErrorBoundary component to catch rendering errors and show a fallback UI.
  */
+// Fix: Explicitly extend Component from 'react' to ensure inherited members like 'state' and 'props' are correctly recognized by TypeScript
 export class ErrorBoundary extends Component<Props, State> {
-  // Use constructor for state initialization to ensure proper TypeScript typing of inheritance in all environments
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null
-    };
-  }
+  // Fix: Initializing state as a class property is modern and avoids constructor-related typing issues
+  public state: State = {
+    hasError: false,
+    error: null
+  };
 
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
@@ -33,7 +30,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    // Access state and props from 'this' which are correctly inherited from Component
+    // Fix: Inherited members 'state' and 'props' are now correctly recognized by extending Component<Props, State>
     const { hasError, error } = this.state;
     const { children } = this.props;
 

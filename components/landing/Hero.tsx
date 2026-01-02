@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
   const fallbackImg = "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?q=80&w=2574&auto=format&fit=crop";
 
   return (
-    <section id="home" className="relative h-screen w-full overflow-hidden flex items-center">
+    <section id="home" className="relative h-screen min-h-[600px] w-full overflow-hidden flex items-center">
       {/* Background Layer: Slow Cinematic Zoom */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img 
@@ -34,13 +34,13 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Content Layer with Staggered Rise Effect */}
-      <div className="relative z-20 max-w-[1500px] mx-auto px-10 w-full pt-16">
-        <div className="max-w-4xl space-y-10">
+      <div className="relative z-20 max-w-[1500px] mx-auto px-10 w-full pt-16 hero-content-wrapper">
+        <div className="max-w-4xl space-y-6 md:space-y-10">
           
           {/* Badge Pill - Entry 1 */}
           <div className="animate-hero-content" style={{ animationDelay: '0.2s' }}>
             <div className="inline-flex items-center gap-3 px-6 py-1.5 bg-white/60 backdrop-blur-lg rounded-full border border-white/60 shadow-sm">
-              <span className="text-[11px] font-bold text-teal-800/80 uppercase tracking-[0.35em]">
+              <span className="text-[11px] font-bold text-teal-800/80 uppercase tracking-[0.08em]">
                 Premium Mother & Baby Sanctuary
               </span>
             </div>
@@ -49,13 +49,13 @@ const Hero: React.FC = () => {
           {/* Main Headline - Entry 2 & 3 */}
           <div className="space-y-0">
             <h1 
-              className="text-[100px] md:text-[160px] font-serif font-bold text-[#1F1F1F] leading-[0.85] tracking-tighter animate-hero-content"
+              className="hero-title text-[100px] md:text-[160px] font-serif font-bold text-[#1F1F1F] leading-[0.85] tracking-tighter animate-hero-content"
               style={{ animationDelay: '0.4s' }}
             >
               Nurturing
             </h1>
             <h2 
-              className="text-[85px] md:text-[145px] font-serif text-[#E6C77A] italic font-medium leading-[0.9] tracking-tighter animate-hero-content opacity-90"
+              className="hero-subtitle text-[85px] md:text-[145px] font-serif text-[#E6C77A] italic font-medium leading-[0.9] tracking-tighter animate-hero-content opacity-90"
               style={{ animationDelay: '0.6s' }}
             >
               Every Step
