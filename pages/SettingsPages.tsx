@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Globe, Bell, Mail, MessageSquare, Monitor, Check } from 'lucide-react';
+import { ArrowLeft, Globe, Bell, Mail, MessageSquare, Monitor, Check, ChevronRight } from 'lucide-react';
 import { useTranslations } from '../i18n/I18nContext';
 
 export const LanguageSettings: React.FC = () => {
@@ -73,22 +74,36 @@ export const LanguageSettings: React.FC = () => {
   );
 };
 
+interface NotificationChannels {
+  email: boolean;
+  sms: boolean;
+  push: boolean;
+}
+
 export const NotificationSettings: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslations();
   
-  // Persist state to existing local storage logic
-  const [channels, setChannels] = useState(() => {
+  // Explicitly typing the state to NotificationChannels to fix potential 'any' inference
+  const [channels, setChannels] = useState<NotificationChannels>(() => {
     const saved = localStorage.getItem('ng_notification_channels');
-    return saved ? JSON.parse(saved) : { email: true, sms: true, push: true };
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to parse notification settings", e);
+      }
+    }
+    return { email: true, sms: true, push: true };
   });
 
   useEffect(() => {
     localStorage.setItem('ng_notification_channels', JSON.stringify(channels));
   }, [channels]);
 
-  const toggleChannel = (key: keyof typeof channels) => {
-    setChannels(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggleChannel = (key: keyof NotificationChannels) => {
+    // Type checking for state update function
+    setChannels((prev: NotificationChannels) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const notificationItems = [
