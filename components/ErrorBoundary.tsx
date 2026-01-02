@@ -13,9 +13,8 @@ interface State {
 /**
  * ErrorBoundary component to catch rendering errors and show a fallback UI.
  */
-// Fix: Explicitly extend Component from 'react' to ensure inherited members like 'state' and 'props' are correctly recognized by TypeScript
 export class ErrorBoundary extends Component<Props, State> {
-  // Fix: Initializing state as a class property is modern and avoids constructor-related typing issues
+  // Initialize state as a class property to ensure TypeScript correctly recognizes inherited members
   public state: State = {
     hasError: false,
     error: null
@@ -30,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    // Fix: Inherited members 'state' and 'props' are now correctly recognized by extending Component<Props, State>
+    // Now correctly recognized as inherited members of Component
     const { hasError, error } = this.state;
     const { children } = this.props;
 
