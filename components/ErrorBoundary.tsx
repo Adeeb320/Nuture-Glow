@@ -13,16 +13,12 @@ interface State {
 /**
  * ErrorBoundary component to catch rendering errors and show a fallback UI.
  */
-// Fix: Inherit from React.Component<Props, State> directly to ensure this.props and this.state are correctly recognized by TypeScript.
 export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    // Fix: initializing state correctly with types defined in the interface
-    this.state = {
-      hasError: false,
-      error: null
-    };
-  }
+  // Fix: initializing state as a class field ensures it is correctly typed and recognized by TypeScript on 'this'
+  public state: State = {
+    hasError: false,
+    error: null
+  };
 
   public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
@@ -34,7 +30,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public render() {
-    // Fix: correctly access state inherited from React.Component
+    // Fix: access state from React.Component instance
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-[#F7F5EF] flex items-center justify-center p-6">
@@ -53,7 +49,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <div className="bg-gray-50 p-4 rounded-2xl text-left">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Diagnostic Info</p>
               <p className="text-xs font-mono text-gray-600 line-clamp-3">
-                {/* Fix: safely accessing error from state */}
+                {/* Fix: access error property from the state object */}
                 {this.state.error?.message || "Unknown error"}
               </p>
             </div>
@@ -78,7 +74,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
-    // Fix: correctly access children from props in a React class component
+    // Fix: access children from props which are inherited from React.Component
     return this.props.children;
   }
 }
